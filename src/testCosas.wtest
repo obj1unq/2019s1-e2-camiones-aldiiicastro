@@ -1,0 +1,168 @@
+import cosas.*
+
+//BUMBLEBEE
+test "bumblebee tiene un nivel de peligrosidad de 15 transformado en auto" {
+	assert.equals(15, bumblebee.nivelPeligrosidad())
+}
+
+test "bumblebee tiene un nivel de peligrosidad de 30 transformado en robot" {
+	bumblebee.transformar()
+	assert.equals(30, bumblebee.nivelPeligrosidad())
+}
+
+test "bumblebee siendo cargado se transforma en robot y entonces tiene un nivel de peligrosidad 30 kilos" {
+	bumblebee.estaSiendoCargada()
+	assert.equals(30, bumblebee.nivelPeligrosidad())
+}
+ 
+
+//PAQUETE DE LADRILLOS
+test "paquete de ladrillos tiene 0 ladrillos, pesa 0" {
+	assert.equals(0, paqueteDeLadrillos.cantLadrillos())
+	assert.equals(0, paqueteDeLadrillos.peso())
+}
+
+test "paquete de ladrillos tiene 10 ladrillos, pesa 20" {
+	paqueteDeLadrillos.cantLadrillos(10)
+	assert.equals(10, paqueteDeLadrillos.cantLadrillos())
+	assert.equals(20, paqueteDeLadrillos.peso())
+}
+
+test "paquete de ladrillos tiene 7 ladrillos, pesa 14" {
+	paqueteDeLadrillos.cantLadrillos(7)
+	assert.equals(7, paqueteDeLadrillos.cantLadrillos())
+	assert.equals(14, paqueteDeLadrillos.peso())
+}
+
+test "paquete de ladrillos de llega a 1 bulto" {
+	paqueteDeLadrillos.cantLadrillos(84)
+	assert.equals(84, paqueteDeLadrillos.cantLadrillos())
+	assert.equals(1, paqueteDeLadrillos.bultos())
+}
+
+test "paquete de ladrillos de llega a 3 bulto" {
+	paqueteDeLadrillos.cantLadrillos(600)
+	assert.equals(600, paqueteDeLadrillos.cantLadrillos())
+	assert.equals(3, paqueteDeLadrillos.bultos())
+}
+
+test "paquete de ladrillos de llega a 2 bulto" {
+	paqueteDeLadrillos.cantLadrillos(215)
+	assert.equals(215, paqueteDeLadrillos.cantLadrillos())
+	assert.equals(2, paqueteDeLadrillos.bultos())
+}
+
+test "paquete de ladrillos siendo cargado tiene 12 ladrillos mas" {
+	paqueteDeLadrillos.cantLadrillos(7)
+	paqueteDeLadrillos.estaSiendoCargada()
+	assert.equals(19,paqueteDeLadrillos.cantLadrillos())
+}
+
+//ARENA A GRANEL
+test "arena a granel tiene un peso inicial de 0" {
+		assert.equals(0, arenaGranel.peso())
+}
+
+test "arena a granel tiene un peso de 15" {
+		arenaGranel.peso(15)
+		assert.equals(15, arenaGranel.peso())
+}
+
+test "arena a granel aumenta 20 de peso si es cargado" {
+	arenaGranel.peso(15)
+	arenaGranel.estaSiendoCargada()
+	assert.equals(35, arenaGranel.peso())
+}
+
+//BATERIA ANTIAEREA
+test "bateriaAntiaerea tiene un peso de 200 sin misiles y un nivel de peligrosidad de 0" {
+	assert.notThat(bateriaAntiaerea.estaConMisiles())
+	assert.equals(200, bateriaAntiaerea.peso())
+	assert.equals(0, bateriaAntiaerea.nivelPeligrosidad())
+}
+
+test "bateriaAntiaerea tiene un peso de 300 con misiles y un nivel de peligrosidad de 100" {
+	bateriaAntiaerea.estaConMisiles(true)
+	assert.that(bateriaAntiaerea.estaConMisiles())
+	assert.equals(300, bateriaAntiaerea.peso())
+	assert.equals(100, bateriaAntiaerea.nivelPeligrosidad())
+}
+
+test "bateriaAntiaerea sin misil es un solo bulto" {
+	assert.notThat(bateriaAntiaerea.estaConMisiles())
+	assert.equals(1, bateriaAntiaerea.bultos())
+}
+
+test "bateriaAntiaerea con misil son 2 bultos" {
+	bateriaAntiaerea.estaConMisiles(true)
+	assert.that(bateriaAntiaerea.estaConMisiles())
+	assert.equals(2, bateriaAntiaerea.bultos())
+}
+
+test "bateriaAntiaerea cuando se carga tiene misiles" {
+	bateriaAntiaerea.estaSiendoCargada()
+	assert.that(bateriaAntiaerea.estaConMisiles())
+}
+
+//CONTENEDOR PORTUARIO
+test "contenedor portuario sin nada adentro pesa 100 y tiene 0 nivel de peligrosidad"{
+	assert.that(contenedorPortuario.cosasAdentro().isEmpty())
+	assert.equals(100, contenedorPortuario.peso())
+	assert.equals(0, contenedorPortuario.nivelPeligrosidad())
+}
+
+test "contenedor portuario tiene a knightRider y arena a granel (peso=0), Su peso es 600 y su nivel de peligrosidad 10" {
+	contenedorPortuario.agregarCosas(knightRider)
+	contenedorPortuario.agregarCosas(arenaGranel)
+	assert.equals([knightRider, arenaGranel], contenedorPortuario.cosasAdentro())
+	assert.equals(600, contenedorPortuario.peso())
+	assert.equals(10, contenedorPortuario.nivelPeligrosidad())
+}
+
+test "contenedor portuario con bateria antiaerea sin misiles y paquete de ladrillos con 100 ladrillos, cumple 3 bultos" {
+	contenedorPortuario.agregarCosas(paqueteDeLadrillos)
+	contenedorPortuario.agregarCosas(bateriaAntiaerea)
+	paqueteDeLadrillos.cantLadrillos(100)
+	assert.equals([paqueteDeLadrillos, bateriaAntiaerea], contenedorPortuario.cosasAdentro())
+	assert.equals(3, contenedorPortuario.bultos())
+}
+
+test "el contenedor portuario tiene residuos radiactivos y a knightRider, cuando se cargan los residuos pesan 15 kilos mas, y knightRider no hace nada " {
+	contenedorPortuario.agregarCosas(residuosRadioactivos) //tiene un peso =0
+	contenedorPortuario.agregarCosas(knightRider)
+	assert.equals([residuosRadioactivos,knightRider], contenedorPortuario.cosasAdentro())
+	contenedorPortuario.estaSiendoCargada()
+	assert.equals(15, residuosRadioactivos.peso()) 
+	assert.equals(500, knightRider.peso()) //Sigue igual
+	assert.equals(10, knightRider.nivelPeligrosidad()) //Sigue igual
+	assert.equals(1, knightRider.bultos()) //Sigue igual
+} 
+
+//RESIDUOS RADIOACTIVOS 
+test "residuos radioactivos tiene un peso inicial de 0" {
+	assert.equals(0, residuosRadioactivos.peso())
+}
+
+test "residuos radioactivos tiene un peso de 4" {
+	residuosRadioactivos.peso(4)
+	assert.equals(4, residuosRadioactivos.peso())
+}
+
+test "cuando se cargan los residuos pesan 15 kilos mas" {
+	residuosRadioactivos.peso(30)
+	residuosRadioactivos.estaSiendoCargada()
+	assert.equals(45, residuosRadioactivos.peso())
+}
+//EMBALAJE DE SEGURIDAD 
+test "embalaje de seguridad inicialmente tiene paquete de ladrillos, un peso de 0 y un nivel de peligrosidad de 1" {
+	assert.equals(paqueteDeLadrillos, embalajeDeSeguridad.cosaAdentro())
+	assert.equals(0,embalajeDeSeguridad.peso())
+	assert.equals(1, embalajeDeSeguridad.nivelPeligrosidad())
+}
+
+test "embalaje de seguridad tiene knightRider un peso de 500 y un nivel de peligrosidad de 5" {
+	embalajeDeSeguridad.cosaAdentro(knightRider)
+	assert.equals(knightRider, embalajeDeSeguridad.cosaAdentro())
+	assert.equals(500,embalajeDeSeguridad.peso())
+	assert.equals(5, embalajeDeSeguridad.nivelPeligrosidad())
+}

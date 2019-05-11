@@ -1,0 +1,69 @@
+import cosas.*
+import camion.*
+
+describe "test de camion"{
+	fixture {
+		camion.cargar(bateriaAntiaerea)
+		embalajeDeSeguridad.cosaAdentro(knightRider)
+		camion.cargar(embalajeDeSeguridad)
+		camion.cargar(bumblebee)
+		arenaGranel.peso(50)
+		camion.cargar(arenaGranel)		
+	}
+	
+	test "Lista de pesos de las cosa que tiene el camion" {
+		assert.equals([bateriaAntiaerea, embalajeDeSeguridad, bumblebee, arenaGranel], camion.cosas())
+		assert.equals([300, 500, 800, 70], camion.pesos())
+	}
+	
+	test "El peso total que tiene el camion con las cosas que lleva es de 2670" {
+		assert.equals(2670, camion.pesoTotal())
+	}
+	
+	test "El camion lleva 7 bultos" {
+		assert.equals(7, camion.totalBultos())
+	}
+	test "La cosa mas pesada del camion es bumblebee" {
+		assert.equals(bumblebee, camion.cosaMasPesada())
+	}
+	
+	test "El camion esta excedido de peso" {
+		assert.equals([bateriaAntiaerea, embalajeDeSeguridad, bumblebee, arenaGranel], camion.cosas())
+		assert.that(camion.excedidoDePeso())
+	}
+	
+	test "El camion no esta excedido de peso " {
+		camion.descargar(bumblebee)
+		assert.equals([bateriaAntiaerea, embalajeDeSeguridad, arenaGranel], camion.cosas())
+		assert.notThat(camion.excedidoDePeso())
+	}
+	
+	test "Lista de las cosas con un nivel de peligrosidad mayor a 90" {
+		assert.equals([bateriaAntiaerea], camion.objetosPeligrosos(90))
+	}
+	
+	test "Lista de las cosas con un nivel de peligrosidad mayor a 12" {
+		assert.equals([bateriaAntiaerea, bumblebee], camion.objetosPeligrosos(12))
+	}
+	
+	test "El camion tiene algo que pesa entre 500 y 900" {
+		assert.that(camion.tieneAlgoQuePesaEntre(500,900))
+	}
+	
+	test "El camion no tiene algo que pesa entre 100 y 200" {
+		assert.notThat(camion.tieneAlgoQuePesaEntre(100,200))
+	}
+	
+		
+	test "Lista de las cosas que son mas peligrosas que el paquete de ladrillos" {
+		assert.equals([bateriaAntiaerea, embalajeDeSeguridad, bumblebee], camion.objetosMasPeligrososQue(paqueteDeLadrillos))
+	}
+	test "El camion puede cirucular en ruta si el nivel de peligrosidad es de 200" {
+		assert.that(camion.puedeCircularEnRuta(200))
+	}
+	
+	test "El camion no puede cirucular en ruta si el nivel de peligrosidad es de 90" {
+		assert.notThat(camion.puedeCircularEnRuta(90))
+	}
+	
+}

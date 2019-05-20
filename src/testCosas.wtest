@@ -18,42 +18,43 @@ test "bumblebee siendo cargado se transforma en robot y entonces tiene un nivel 
 
 //PAQUETE DE LADRILLOS
 test "paquete de ladrillos tiene 0 ladrillos, pesa 0" {
+	const paqueteDeLadrillos = new PaqueteDeLadrillos()
 	assert.equals(0, paqueteDeLadrillos.cantLadrillos())
 	assert.equals(0, paqueteDeLadrillos.peso())
 }
 
 test "paquete de ladrillos tiene 10 ladrillos, pesa 20" {
-	paqueteDeLadrillos.cantLadrillos(10)
+	const paqueteDeLadrillos = new PaqueteDeLadrillos(cantLadrillos = 10)
 	assert.equals(10, paqueteDeLadrillos.cantLadrillos())
 	assert.equals(20, paqueteDeLadrillos.peso())
 }
 
 test "paquete de ladrillos tiene 7 ladrillos, pesa 14" {
-	paqueteDeLadrillos.cantLadrillos(7)
+	const paqueteDeLadrillos = new PaqueteDeLadrillos(cantLadrillos = 7)
 	assert.equals(7, paqueteDeLadrillos.cantLadrillos())
 	assert.equals(14, paqueteDeLadrillos.peso())
 }
 
 test "paquete de ladrillos de llega a 1 bulto" {
-	paqueteDeLadrillos.cantLadrillos(84)
+	const paqueteDeLadrillos = new PaqueteDeLadrillos(cantLadrillos = 84)
 	assert.equals(84, paqueteDeLadrillos.cantLadrillos())
 	assert.equals(1, paqueteDeLadrillos.bultos())
 }
 
 test "paquete de ladrillos de llega a 3 bulto" {
-	paqueteDeLadrillos.cantLadrillos(600)
+	const paqueteDeLadrillos = new PaqueteDeLadrillos(cantLadrillos = 600)
 	assert.equals(600, paqueteDeLadrillos.cantLadrillos())
 	assert.equals(3, paqueteDeLadrillos.bultos())
 }
 
 test "paquete de ladrillos de llega a 2 bulto" {
-	paqueteDeLadrillos.cantLadrillos(215)
+	const paqueteDeLadrillos = new PaqueteDeLadrillos(cantLadrillos = 215)
 	assert.equals(215, paqueteDeLadrillos.cantLadrillos())
 	assert.equals(2, paqueteDeLadrillos.bultos())
 }
 
 test "paquete de ladrillos siendo cargado tiene 12 ladrillos mas" {
-	paqueteDeLadrillos.cantLadrillos(7)
+	const paqueteDeLadrillos = new PaqueteDeLadrillos(cantLadrillos = 7)
 	paqueteDeLadrillos.estaSiendoCargada()
 	assert.equals(19,paqueteDeLadrillos.cantLadrillos())
 }
@@ -120,9 +121,9 @@ test "contenedor portuario tiene a knightRider y arena a granel (peso=0), Su pes
 }
 
 test "contenedor portuario con bateria antiaerea sin misiles y paquete de ladrillos con 100 ladrillos, cumple 3 bultos" {
+	const paqueteDeLadrillos = new PaqueteDeLadrillos(cantLadrillos = 100)
 	contenedorPortuario.agregarCosas(paqueteDeLadrillos)
 	contenedorPortuario.agregarCosas(bateriaAntiaerea)
-	paqueteDeLadrillos.cantLadrillos(100)
 	assert.equals([paqueteDeLadrillos, bateriaAntiaerea], contenedorPortuario.cosasAdentro())
 	assert.equals(3, contenedorPortuario.bultos())
 }
@@ -155,7 +156,7 @@ test "cuando se cargan los residuos pesan 15 kilos mas" {
 }
 //EMBALAJE DE SEGURIDAD 
 test "embalaje de seguridad inicialmente tiene paquete de ladrillos, un peso de 0 y un nivel de peligrosidad de 1" {
-	assert.equals(paqueteDeLadrillos, embalajeDeSeguridad.cosaAdentro())
+	assert.equals(new PaqueteDeLadrillos(), embalajeDeSeguridad.cosaAdentro())
 	assert.equals(0,embalajeDeSeguridad.peso())
 	assert.equals(1, embalajeDeSeguridad.nivelPeligrosidad())
 }

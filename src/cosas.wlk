@@ -1,3 +1,4 @@
+
 object knightRider {
 	
 	method peso() = 500
@@ -12,12 +13,12 @@ object bumblebee {
 	method peso() = 800
 	method nivelPeligrosidad() = if (transformadoEnAuto) { 15 } else { 30 }
 	method bultos() = 2
-	method estaSiendoCargada() { self.transformar() }
+	method estaSiendoCargada() { transformadoEnAuto = false }
 	
 	method transformar() { transformadoEnAuto = not transformadoEnAuto }
 }
 
-object paqueteDeLadrillos {
+class PaqueteDeLadrillos {
 	var  property cantLadrillos = 0
 	
 	method peso() = 2*cantLadrillos
@@ -53,7 +54,7 @@ object contenedorPortuario {
 	method peso() = 100 + cosasAdentro.sum({cosa => cosa.peso()})
 	method nivelPeligrosidad() = if (not cosasAdentro.isEmpty()) {self.maximoNivelDePeligrosidadDeLasCosas()} else {0}
 	method bultos() = 1 + cosasAdentro.sum({cosa => cosa.bultos()})
-	method estaSiendoCargada() {cosasAdentro.apply({cosa => cosa.estaSiendoCargada()})}
+	method estaSiendoCargada() {cosasAdentro.forEach({cosa => cosa.estaSiendoCargada()})} //ERA UN FOREACH
 	
 	method agregarCosas(cosa) { cosasAdentro.add(cosa) }
 	method nivelDePeligrosidadDeLasCosas() = cosasAdentro.map({cosa => cosa.nivelPeligrosidad()})
@@ -69,6 +70,7 @@ object residuosRadioactivos {
 }
 
 object embalajeDeSeguridad {
+	const paqueteDeLadrillos = new PaqueteDeLadrillos()
 	var property cosaAdentro = paqueteDeLadrillos
 	
 	method peso() = cosaAdentro.peso()

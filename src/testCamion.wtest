@@ -2,6 +2,7 @@ import cosas.*
 import camion.*
 
 describe "test de camion"{
+	const camion = new Camion()
 	fixture {
 		camion.cargar(bateriaAntiaerea)
 		embalajeDeSeguridad.cosaAdentro(knightRider)
@@ -56,7 +57,7 @@ describe "test de camion"{
 	
 		
 	test "Lista de las cosas que son mas peligrosas que el paquete de ladrillos" {
-		assert.equals([bateriaAntiaerea, embalajeDeSeguridad, bumblebee], camion.objetosMasPeligrososQue(paqueteDeLadrillos))
+		assert.equals([bateriaAntiaerea, embalajeDeSeguridad, bumblebee], camion.objetosMasPeligrososQue(new PaqueteDeLadrillos()))
 	}
 	test "El camion puede cirucular en ruta si el nivel de peligrosidad es de 200" {
 		assert.that(camion.puedeCircularEnRuta(200))
